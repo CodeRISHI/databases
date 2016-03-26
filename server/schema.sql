@@ -8,6 +8,11 @@ CREATE TABLE users (
   username varchar(25) NOT NULL
 );
 
+CREATE TABLE rooms (
+  roomid int PRIMARY KEY,
+  roomname varchar(20)
+);
+
 CREATE TABLE messages (
   /* Describe your table here.*/
   /*The second table is for 'Messages' - will store 'message-id', 'message', and 'user-id_Users' which is a foreign key.*/
@@ -15,8 +20,9 @@ CREATE TABLE messages (
   messageid int PRIMARY KEY,
   message varchar(100) NOT NULL,
   userref int NOT NULL,
-  FOREIGN KEY (userref) REFERENCES users(userid)
-
+  roomref int NOT NULL,
+  FOREIGN KEY (userref) REFERENCES users(userid),
+  FOREIGN KEY (roomref) REFERENCES rooms(roomid)
 );
 
 /* Create other tables and define schemas for them here! */
