@@ -40,7 +40,7 @@ var app = {
 
     // POST the message to the server
     $.ajax({
-      url: app.server,
+      url: app.server + '/classes/messages',
       type: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json',
@@ -61,19 +61,32 @@ var app = {
       contentType: 'application/json',
       success: function(data) {
         // Don't bother if we have nothing to work with
-        if (!data.results || !data.results.length) { return; }
+        // console.log('data: ----------------> ', data);
+        // console.log('data.length ----------------> ', data.length);
+
+        for (var i = 0; i < data.length; i++) {
+          if (!data[i].message || !data.length) {
+            return;
+          }
+        }
 
         // Get the last message
-        var mostRecentMessage = data.results[data.results.length - 1];
+        var mostRecentMessage = data[data.length - 1].message;
+        // // Get the last message
+        // var mostRecentMessage = data.results[data.results.length - 1];
         var displayedRoom = $('.chat span').first().data('roomname');
         app.stopSpinner();
         // Only bother updating the DOM if we have a new message
         if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
           // Update the UI with the fetched rooms
-          app.populateRooms(data.results);
+          // app.populateRooms(data.results);
+          app.populateRooms(data);
 
           // Update the UI with the fetched messages
-          app.populateMessages(data.results, animate);
+          // app.populateMessages(data.results, animate);
+          app.populateMessages(data, animate);
+
+
 
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;
@@ -89,14 +102,15 @@ var app = {
     app.$chats.html('');
   },
 
-  populateMessages: function(results, animate) {
+  //pass in data to populateMessages
+  populateMessages: function(data, animate) {
     // Clear existing messages
 
     app.clearMessages();
     app.stopSpinner();
-    if (Array.isArray(results)) {
+    if (Array.isArray(data)) {
       // Add all fetched messages
-      results.forEach(app.addMessage);
+      data.forEach(app.addMessage);
     }
 
     // Make it scroll to the bottom
@@ -160,7 +174,7 @@ var app = {
       }
 
       var $message = $('<br><span/>');
-      $message.text(data.text).appendTo($chat);
+      $message.text(data.message).appendTo($chat);
 
       // Add the message to the UI
       app.$chats.append($chat);
