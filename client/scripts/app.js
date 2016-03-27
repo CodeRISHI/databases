@@ -60,10 +60,9 @@ var app = {
       type: 'GET',
       contentType: 'application/json',
       success: function(data) {
-        // Don't bother if we have nothing to work with
         // console.log('data: ----------------> ', data);
         // console.log('data.length ----------------> ', data.length);
-
+        // Don't bother if we have nothing to work with
         for (var i = 0; i < data.length; i++) {
           if (!data[i].message || !data.length) {
             return;
@@ -85,8 +84,6 @@ var app = {
           // Update the UI with the fetched messages
           // app.populateMessages(data.results, animate);
           app.populateMessages(data, animate);
-
-
 
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;

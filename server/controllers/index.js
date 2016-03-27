@@ -16,11 +16,11 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-      models.users.post(req, res);
+      models.users.get(req, res);
     },
     post: function (data) {
       // console.log(data + ' <---------------- data (USERS)');
-      models.users.post(data);
+      // models.users.post(data);
     }
   }
 };
